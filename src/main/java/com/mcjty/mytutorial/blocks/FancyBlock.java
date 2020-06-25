@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
@@ -15,10 +16,13 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
+import java.util.List;
 
 public class FancyBlock extends Block {
 
@@ -32,7 +36,32 @@ public class FancyBlock extends Block {
     }
 
     @Override
+    public void addInformation(ItemStack stack, @Nullable IBlockReader reader, List<ITextComponent> list, ITooltipFlag flags) {
+        list.add(new TranslationTextComponent("message.fancyblock"));
+    }
+
+
+    @Override
+    public int getLightValue(BlockState state, IBlockReader world, BlockPos pos) {
+        TileEntity te = world.getTileEntity(pos);
+        if (te instanceof FancyBlockTile) {
+            BlockState mimic = ((FancyBlockTile) te).getMimic();
+            if (mimic != null) {
+                return mimic.getLightValue(world, pos);
+            }
+        }
+        return super.getLightValue(state, world, pos);
+    }
+
+    @Override
     public VoxelShape getShape(BlockState state, IBlockReader reader, BlockPos pos, ISelectionContext context) {
+        TileEntity te = reader.getTileEntity(pos);
+        if (te instanceof FancyBlockTile) {
+            BlockState mimic = ((FancyBlockTile) te).getMimic();
+            if (mimic != null) {
+                return mimic.getShape(reader, pos, context);
+            }
+        }
         return SHAPE;
     }
 

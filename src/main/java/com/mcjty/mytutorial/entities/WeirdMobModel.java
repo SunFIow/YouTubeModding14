@@ -15,7 +15,7 @@ public class WeirdMobModel extends EntityModel<WeirdMobEntity> {
     }
 
     @Override
-    public void render(WeirdMobEntity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void setRotationAngles(WeirdMobEntity weirdMobEntity, float v, float v1, float v2, float v3, float v4) {
 
     }
 
@@ -23,10 +23,4 @@ public class WeirdMobModel extends EntityModel<WeirdMobEntity> {
     public void render(MatrixStack matrixStack, IVertexBuilder iVertexBuilder, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
         body.render(matrixStack, iVertexBuilder, packedLightIn, packedOverlayIn, red, green, blue, alpha);
     }
-
-//    @Override
-//    public void render(WeirdMobEntity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
-//        setRotationAngles(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
-//        body.render(scale);
-//    }
 }
